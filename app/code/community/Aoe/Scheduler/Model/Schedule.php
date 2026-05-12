@@ -188,8 +188,8 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
 
             $startTime = time();
             $this
-                ->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', $startTime))
-                ->setLastSeen(strftime('%Y-%m-%d %H:%M:%S', $startTime))
+                ->setExecutedAt(date('Y-m-d H:i:s', $startTime))
+                ->setLastSeen(date('Y-m-d H:i:s', $startTime))
                 ->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_RUNNING)
                 ->setHost(gethostname())
                 ->setPid(getmypid())
@@ -266,7 +266,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             Mage::helper('aoe_scheduler')->sendErrorMail($this, $e->__toString());
         }
 
-        $this->setFinishedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
+        $this->setFinishedAt(date('Y-m-d H:i:s', time()));
         $this->setMemoryUsage(memory_get_peak_usage(true) / pow(1024, 2));  // convert bytes to megabytes
         Mage::dispatchEvent('cron_' . $this->getJobCode() . '_after', array('schedule' => $this));
         Mage::dispatchEvent('cron_after', array('schedule' => $this));
@@ -325,8 +325,8 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             $time = time();
         }
         $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
-            ->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
-            ->setScheduledAt(strftime('%Y-%m-%d %H:%M:00', $time))
+            ->setCreatedAt(date('Y-m-d H:i:s', time()))
+            ->setScheduledAt(date('Y-m-d H:i:00', $time))
             ->save();
         return $this;
     }
@@ -401,7 +401,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             } elseif ($this->getHost() == gethostname()) {
                 if ($this->checkPid()) {
                     $this
-                        ->setLastSeen(strftime('%Y-%m-%d %H:%M:%S', time()))
+                        ->setLastSeen(date('Y-m-d H:i:s', time()))
                         ->save();
                     return true;
                 } else {
@@ -461,7 +461,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         if (!is_null($message)) {
             $this->addMessages($message);
         }
-        $this->setKillRequest(strftime('%Y-%m-%d %H:%M:%S', $time))
+        $this->setKillRequest(date('Y-m-d H:i:s', $time))
            ->save();
         return $this;
     }
@@ -514,7 +514,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
 
         $this
             ->setStatus(self::STATUS_KILLED)
-            ->setFinishedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
+            ->setFinishedAt(date('Y-m-d H:i:s', time()))
             ->save();
     }
 

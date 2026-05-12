@@ -1,12 +1,12 @@
 <img align="right" style="float: right; height: 200px;" src="doc/images/Aoe_Scheduler_Icon.png">
 
-# AOE Scheduler for Magento
+## FORK NOTICE
+This is a fork of `AOEpeople/Aoe_Scheduler` updated to support PHP version 8.4 and Openmage.
 
-[![Build Status](https://travis-ci.org/AOEpeople/Aoe_Scheduler.svg)](https://travis-ci.org/AOEpeople/Aoe_Scheduler)
 
-[![waffle.io](https://badge.waffle.io/aoepeople/aoe_scheduler.png?label=ready&title=waffle.io)](https://waffle.io/aoepeople/aoe_scheduler)
+# AOE Scheduler for Openmage
 
-AOE Scheduler sits on top of Magento's default cron functionality allowing you to manage the jobs, to visualize the timeline and to get some deeper insight on what's going on behind the scenes and to shed some light on what might be going wrong. On top of that AOE Scheduler provides some more functionality like a cli and a web service interface, optimizing cron execution on your server and giving you everything you need to implement complex background tasks including for your Magento store.
+AOE Scheduler sits on top of Openmage's default cron functionality allowing you to manage the jobs, to visualize the timeline and to get some deeper insight on what's going on behind the scenes and to shed some light on what might be going wrong. On top of that AOE Scheduler provides some more functionality like a cli and a web service interface, optimizing cron execution on your server and giving you everything you need to implement complex background tasks including for your Magento store.
 
 ![](doc/images/timeline2.jpg)
 
@@ -16,13 +16,13 @@ This documentation is currently being written. Sadly, at this point it's still m
 
 ## Changelog
 
-Version 1.0.0 is a major release. If you're updating from version 0.X please check out the changelog and verify everything is still working as expected after updating. 
+Version 1.0.0 is a major release. If you're updating from version 0.X please check out the changelog and verify everything is still working as expected after updating.
 
 [Changelog](changelog.md)
 
 ## Features
 
-- **Timeline visualization**: The timeline view visualizes all past, current and future jobs showing their status, results, the runtime and some more details. 
+- **Timeline visualization**: The timeline view visualizes all past, current and future jobs showing their status, results, the runtime and some more details.
 - **Cron Management**: Find a list of all jobs defined in the Magento core or in any module installed. You can enable or disable individual jobs, modify them (e.g. edit their schedule) or even create new crons from scratch
 - **Parameterized Crons**: Sometimes a simple cron run isn't enough. You might want to use the same cron but with different parameters. Example: Use this to create daily reports and weekly reports with the same job, but different input parameters.
 - **Process Management**: Check if jobs are actually still running and kill them through Aoe_Scheduler if required.
@@ -52,18 +52,18 @@ Please get in touch with us via the [issue tracker on GitHub](https://github.com
 
 ## Compability
 
-- PHP: 
+- PHP:
   - 5.3
   - 5.4
   - 5.5
-- Magento CE: 
+- Magento CE:
   - 1.6.2.0
   - 1.7.0.2
   - 1.8.0.0
   - 1.8.1.0
   - 1.9.0.1
   - 1.9.1.0
-- Magento EE: 
+- Magento EE:
   - 1.11.0.0
   - 1.11.0.2
   - 1.11.1.0
@@ -96,7 +96,7 @@ Please get in touch with us via the [issue tracker on GitHub](https://github.com
 1. [Web Services](doc/web-services.md)
 1. [Domain Model](doc/domain-model.md)
 1. [Cron Processing](doc/processing.md)
-1. [Unit Tests](doc/tests.md) 
+1. [Unit Tests](doc/tests.md)
 1. Features
     1. [Heartbeat and Monitoring](doc/heartbeat.md)
     1. [Notifications](doc/notifications.md)
@@ -111,10 +111,10 @@ Please get in touch with us via the [issue tracker on GitHub](https://github.com
     1. [Cron groups](doc/cron-groups.md)
     1. [Process Management](doc/process-management.md)
     1. [Output buffering](doc/output-buffering.md)
-    1. [Bumper to Bumper (REPEAT)](doc/bumper-to-bumper.md) 
+    1. [Bumper to Bumper (REPEAT)](doc/bumper-to-bumper.md)
 1. Cookbook
 	1. [How to declutter your timeline](doc/declutter-timeline.md)
-	1. [How to integrate into deployments](doc/deployment-integration.md) 
+	1. [How to integrate into deployments](doc/deployment-integration.md)
 	1. [Distributed cron](doc/distributed.md)
     1. [Job workflows](doc/job-workflows.md)
     1. [Schedule a job programmatically](doc/programmatically.md)

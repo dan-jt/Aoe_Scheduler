@@ -142,8 +142,7 @@ class Aoe_Scheduler_Adminhtml_JobController extends Aoe_Scheduler_Controller_Abs
             return array();
         }
         $allowedCodes = Mage::getSingleton('aoe_scheduler/job')->getResource()->getJobCodes();
-        $codes = array_intersect(array_unique(array_filter(array_map('trim', $codes))), $allowedCodes);
-        return $codes;
+        return array_intersect(array_unique(array_filter(array_map('trim', $codes))), $allowedCodes);
     }
 
     /**
@@ -267,7 +266,6 @@ class Aoe_Scheduler_Adminhtml_JobController extends Aoe_Scheduler_Controller_Abs
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
-        return;
     }
 
     /**

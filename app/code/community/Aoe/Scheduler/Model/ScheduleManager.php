@@ -8,8 +8,8 @@
  */
 class Aoe_Scheduler_Model_ScheduleManager
 {
-    const XML_PATH_HISTORY_MAXNO = 'system/cron/maxNoOfSuccessfulTasks';
-    const CACHE_KEY_SCHEDULER_LASTRUNS = 'cron_lastruns';
+    const string XML_PATH_HISTORY_MAXNO = 'system/cron/maxNoOfSuccessfulTasks';
+    const string CACHE_KEY_SCHEDULER_LASTRUNS = 'cron_lastruns';
 
     /**
      * Mark missed schedule records by changing status
@@ -21,7 +21,7 @@ class Aoe_Scheduler_Model_ScheduleManager
     {
         $schedules = Mage::getModel('cron/schedule')->getCollection()
             ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
-            ->addFieldToFilter('scheduled_at', array('lt' => strftime('%Y-%m-%d %H:%M:%S', time())))
+            ->addFieldToFilter('scheduled_at', ['lt' => date('Y-m-d H:i:s', time())])
             ->addOrder('scheduled_at', 'DESC')
             ->load();
 
@@ -63,21 +63,21 @@ class Aoe_Scheduler_Model_ScheduleManager
      *
      * @return Mage_Cron_Model_Resource_Schedule_Collection
      */
-    public function getPendingSchedules(array $whitelist = array(), array $blacklist = array())
+    public function getPendingSchedules(array $whitelist = [], array $blacklist = [])
     {
         $pendingSchedules = Mage::getModel('cron/schedule')->getCollection()
             ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
-            ->addFieldToFilter('scheduled_at', array('lt' => strftime('%Y-%m-%d %H:%M:%S', time())))
+            ->addFieldToFilter('scheduled_at', ['lt' => date('Y-m-d H:i:s', time())])
             ->addOrder('scheduled_at', 'ASC');
 
         $whitelist = array_filter(array_map('trim', $whitelist));
         if (!empty($whitelist)) {
-            $pendingSchedules->addFieldToFilter('job_code', array('in' => $whitelist));
+            $pendingSchedules->addFieldToFilter('job_code', ['in' => $whitelist]);
         }
 
         $blacklist = array_filter(array_map('trim', $blacklist));
         if (!empty($blacklist)) {
-            $pendingSchedules->addFieldToFilter('job_code', array('nin' => $blacklist));
+            $pendingSchedules->addFieldToFilter('job_code', ['nin' => $blacklist]);
         }
 
         return $pendingSchedules;
@@ -95,7 +95,7 @@ class Aoe_Scheduler_Model_ScheduleManager
     {
         $processManager = Mage::getModel('aoe_scheduler/processManager'); /* @var $processManager Aoe_Scheduler_Model_ProcessManager */
         if (!$processManager->isJobCodeRunning($jobCode)) {
-            $ts = strftime('%Y-%m-%d %H:%M:00', time());
+            $ts = date('Y-m-d H:i:00', time());
             $schedule = Mage::getModel('cron/schedule'); /* @var $schedule Aoe_Scheduler_Model_Schedule */
             $schedule
                 ->setScheduledReason($reason ? $reason : Aoe_Scheduler_Model_Schedule::REASON_ALWAYS)
@@ -143,6 +143,7 @@ class Aoe_Scheduler_Model_ScheduleManager
      * Generate cron schedule.
      * Rewrites the original method to remove duplicates afterwards (that exists because of a bug)
      *
+     * @throws Exception
      * @return $this
      */
     public function generateSchedules()
@@ -168,7 +169,7 @@ class Aoe_Scheduler_Model_ScheduleManager
         /**
          * save time schedules generation was ran with no expiration
          */
-        Mage::app()->saveCache(time(), Mage_Cron_Model_Observer::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT, array('crontab'), null);
+        Mage::app()->saveCache(time(), Mage_Cron_Model_Observer::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT, ['crontab'], null);
 
         $this->deleteDuplicates();
 
@@ -198,7 +199,7 @@ class Aoe_Scheduler_Model_ScheduleManager
         /* @var $pendingSchedules Mage_Cron_Model_Resource_Schedule_Collection */
         $pendingSchedules = Mage::getModel('cron/schedule')->getCollection()
             ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
-            ->addFieldToFilter('scheduled_at', array('gt' => strftime('%Y-%m-%d %H:%M:%S', time())))
+            ->addFieldToFilter('scheduled_at', array('gt' => date('Y-m-d H:i:s', time())))
             ->addOrder('scheduled_at', 'ASC');
         if (!empty($jobCode)) {
             $pendingSchedules->addFieldToFilter('job_code', $jobCode);
@@ -255,7 +256,7 @@ class Aoe_Scheduler_Model_ScheduleManager
         $schedule->setScheduledReason(Aoe_Scheduler_Model_Schedule::REASON_GENERATESCHEDULES);
 
         for ($time = $now + 60; $time < $timeAhead; $time += 60) {
-            $ts = strftime('%Y-%m-%d %H:%M:00', $time);
+            $ts = date('Y-m-d H:i:00', $time);
             if (!empty($exists[$job->getJobCode().'/'.$ts])) {
                 // already scheduled
                 continue;
