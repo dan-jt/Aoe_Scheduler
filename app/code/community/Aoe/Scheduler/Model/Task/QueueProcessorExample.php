@@ -12,14 +12,13 @@ class Aoe_Scheduler_Model_Task_QueueProcessorExample
     /**
      * Run
      *
-     * @param Aoe_Scheduler_Model_Schedule $schedule
      * @return string
      * @throws Exception
      */
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
         // in case you're interested how often this was repeated so far...
-        $currentRepetition = $schedule->getRepetition();
+        $schedule->getRepetition();
 
         $numberOfMessagesToFetch = 10;
 
@@ -31,7 +30,7 @@ class Aoe_Scheduler_Model_Task_QueueProcessorExample
         ]);
         $messages = $result->search('Messages[]');
 
-        if (count($messages) == 0) {
+        if (count($messages) === 0) {
             $schedule->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_DIDNTDOANYTHING);
             return;
         }
@@ -46,7 +45,7 @@ class Aoe_Scheduler_Model_Task_QueueProcessorExample
             ]);
         }
 
-        if (count($messages) == $numberOfMessagesToFetch) {
+        if (count($messages) === $numberOfMessagesToFetch) {
             // there might be more messages on the queue
             $schedule->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_REPEAT);
         } else {

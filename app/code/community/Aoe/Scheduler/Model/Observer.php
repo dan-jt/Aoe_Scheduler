@@ -11,8 +11,6 @@ class Aoe_Scheduler_Model_Observer /* extends Mage_Cron_Model_Observer */
      * Process cron queue
      * Generate tasks schedule
      * Cleanup tasks schedule
-     *
-     * @param Varien_Event_Observer $observer
      */
     public function dispatch(Varien_Event_Observer $observer)
     {
@@ -48,8 +46,6 @@ class Aoe_Scheduler_Model_Observer /* extends Mage_Cron_Model_Observer */
 
     /**
      * Process cron queue for tasks marked as 'always'
-     *
-     * @param Varien_Event_Observer $observer
      */
     public function dispatchAlways(Varien_Event_Observer $observer)
     {
@@ -76,7 +72,7 @@ class Aoe_Scheduler_Model_Observer /* extends Mage_Cron_Model_Observer */
             if ($job->isAlwaysTask() && $job->getRunModel()) {
                 $repetition = 0;
                 do {
-                    $reason = ($repetition == 0) ? Aoe_Scheduler_Model_Schedule::REASON_ALWAYS : Aoe_Scheduler_Model_Schedule::REASON_REPEAT;
+                    $reason = ($repetition === 0) ? Aoe_Scheduler_Model_Schedule::REASON_ALWAYS : Aoe_Scheduler_Model_Schedule::REASON_REPEAT;
                     $schedule = $scheduleManager->getScheduleForAlwaysJob($job->getJobCode(), $reason);
                     if ($schedule !== false) {
                         $schedule->setRepetition($repetition); // this is not persisted, but can be access from within the callback

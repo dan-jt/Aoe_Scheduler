@@ -12,7 +12,7 @@ $this->getConnection()->dropColumn(
     'parameters'
 );
 
-$columns = array(
+$columns = [
     'parameters'       => "TEXT NULL COMMENT 'Serialized Parameters' AFTER finished_at",
     'eta'              => "timestamp NULL DEFAULT NULL COMMENT 'Estimated Time of Arrival'",
     'host'             => "varchar(255) NULL COMMENT 'Host running this job'",
@@ -20,21 +20,21 @@ $columns = array(
     'progress_message' => "TEXT NULL COMMENT 'Progress message'",
     'last_seen'        => "timestamp NULL DEFAULT NULL COMMENT 'Last seen'",
     'kill_request'     => "timestamp NULL DEFAULT NULL COMMENT 'Kill Request'",
-    'scheduled_by' => array (
+    'scheduled_by' =>  [
         'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => true,
         'default'  => null,
         'comment'  => 'Scheduled by'
-    ),
-    'scheduled_reason' => array(
+    ],
+    'scheduled_reason' => [
         'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
         'length'   => 256,
         'nullable' => true,
         'default'  => null,
         'comment'  => 'Scheduled Reason'
-    )
-);
+    ]
+];
 
 foreach ($columns as $columnName => $definition) {
     if ($this->getConnection()->tableColumnExists($tableName, $columnName)) {

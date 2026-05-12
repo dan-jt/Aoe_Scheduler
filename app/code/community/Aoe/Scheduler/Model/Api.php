@@ -32,7 +32,6 @@ class Aoe_Scheduler_Model_Api extends Mage_Api_Model_Resource_Abstract
      * Schedule task
      *
      * @param $code
-     * @param null $time
      * @return array
      */
     public function schedule($code, $time = null)
